@@ -1,9 +1,10 @@
 .idea
-.vscode
+.gradle
 target
+/out
+/build
+/target
 *.iml
-*.ipr
-*.iws
 projectFilesBackup
 .classpath
 .project
