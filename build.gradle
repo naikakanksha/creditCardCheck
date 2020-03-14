@@ -1,0 +1,83 @@
+buildscript {
+    ext.spring_boot_version = '2.0.0.RELEASE'
+    ext.springframeworkVersion = '4.3.9.RELEASE'
+    ext.springSecurityVersion = '4.2.3.RELEASE'
+    ext.jacksonDataformatVersion = '2.9.2'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+    }
+}
+
+group 'com.afterpay'
+version '1.0-SNAPSHOT'
+
+// Java dev plugins
+apply plugin: 'war'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot:$spring_boot_version")
+    compile("org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version")
+    compile("org.springframework.boot:spring-boot-starter-web:$spring_boot_version")
+    compile("org.springframework.boot:spring-boot-starter-tomcat:$spring_boot_version")
+
+    compile("org.springframework.security:spring-security-web:$springSecurityVersion")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonDataformatVersion")
+
+    compile("org.springframework:spring-core:$springframeworkVersion")
+    compile("org.springframework:spring-context:$springframeworkVersion")
+    compile("org.springframework:spring-web:$springframeworkVersion")
+
+    compile("org.apache.commons:commons-lang3:3.5")
+    compile("org.apache.commons:commons-collections4:4.1")
+    compile("javax.servlet:javax.servlet-api:3.1.0")
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile("org.springframework.boot:spring-boot-starter-test:$spring_boot_version")
+}
+
+bootRun {
+    if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        // avoid the 32k command length limit on Windows by specifying the classpath in a jar
+        // see: http://tuhrig.de/gradles-bootrun-and-windows-command-length-limit/
+        dependsOn pathingJar
+        classpath = files(sourceSets.test.output.files, pathingJar.archivePath)
+
+    } else {
+
+        // allow bootrun to access test resources / code
+        classpath = sourceSets.test.runtimeClasspath
+    }
+
+
+    // NOTE: To run in debug do "gradle bootRun --debug-jvm" and connect debugger to port 5005
+    // support passing -Dsystem.property=value to bootRun task
+    systemProperties = System.properties
+
+    // Change the server port when running locally so that it can run in parallel with PCC API microservice
+    systemProperty 'server.port', '8090'
+
+    jvmArgs = [ "-Dcatalina.base=."
+                // This next allows a local bootrun to pick up externalised config via the boot-run-config.yml file.
+                // BootRun will pickup application-local.yml config
+                ,"-Djava.awt.headless=true"
+                ,"-Dspring.profiles.active=local"
+                // This can be used to turn debug port on
+                ,"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+    ]
+
+    println "java.home: " + System.getProperty('java.home')
+    println "spring.profiles.active: " + System.getProperty('spring.profiles.active')
+}
