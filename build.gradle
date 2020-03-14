@@ -1,5 +1,5 @@
 buildscript {
-    ext.spring_boot_version = '1.5.4.RELEASE'
+    ext.spring_boot_version = '2.0.0.RELEASE'
     ext.springframeworkVersion = '4.3.9.RELEASE'
     ext.springSecurityVersion = '4.2.3.RELEASE'
     ext.jacksonDataformatVersion = '2.9.2'
@@ -19,7 +19,7 @@ version '1.0-SNAPSHOT'
 // Java dev plugins
 apply plugin: 'war'
 apply plugin: 'java'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
@@ -28,8 +28,10 @@ repositories {
 }
 
 dependencies {
+    compile("org.springframework.boot:spring-boot:$spring_boot_version")
     compile("org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version")
     compile("org.springframework.boot:spring-boot-starter-web:$spring_boot_version")
+    compile("org.springframework.boot:spring-boot-starter-tomcat:$spring_boot_version")
 
     compile("org.springframework.security:spring-security-web:$springSecurityVersion")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonDataformatVersion")
