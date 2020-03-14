@@ -1,0 +1,10 @@
+.idea
+.vscode
+target
+*.iml
+*.ipr
+*.iws
+projectFilesBackup
+.classpath
+.project
+.settings/
