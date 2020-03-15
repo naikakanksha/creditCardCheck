@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "1a40c247-e860-7336-825a-d57bd09506d8",
+		"name": "credit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "fraud on 2020-02-29 threshold 12",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "threshold",
+						"value": "12.0"
+					},
+					{
+						"key": "day",
+						"value": "2020-02-29"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"credit_card_transactions\": [\n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2020-02-29T13:15:54, 10.00\", \n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2020-02-29T13:15:54, 11.00\",\n\t\t\"12d7ce2f43e35fa57d1bbf8b1e2, 2020-02-29T13:15:54, 12.00\", \n\t\t\"13d7ce2f43e35fa57d1bbf8b1e2, 2020-02-29T13:15:54, 14.00\"\n\t\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/find",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find fraud ignore invalid transaction threshold 5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "threshold",
+						"value": "5.0"
+					},
+					{
+						"key": "day",
+						"value": "2020-02-29"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"credit_card_transactions\": [\n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2020-02-29T13:15:54, 10.00\", \n\t\t\"1rtd7ce2f43e35fa57d1bbf8b1e2, 2020-01-29T13:15:54, 10.00\",\n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2020-02-2903:15:54, 10.00\", \n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2020-01-29T13:15:54,abc\" \n\t\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/find",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "invalid day on request header",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "threshold",
+						"value": "10.0"
+					},
+					{
+						"key": "day",
+						"value": "asd"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"credit_card_transactions\": [\n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2014-04-29T13:15:54, 10.00\", \n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2014-04-29T13:15:54, 10.00\"\n\t\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/find",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "invalid threshold on request header",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "threshold",
+						"value": "asd"
+					},
+					{
+						"key": "day",
+						"value": "2014-04-29"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"credit_card_transactions\": [\n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2014-04-29T13:15:54, 10.00\", \n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2014-04-29T13:15:54, 10.00\"\n\t\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/find",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find fraud",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "threshold",
+						"value": "10.0"
+					},
+					{
+						"key": "day",
+						"value": "2014-04-29"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"credit_card_transactions\": [\n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2014-04-29T13:15:54, 10.00\", \n\t\t\"10d7ce2f43e35fa57d1bbf8b1e2, 2014-04-29T13:15:54, 10.00\"\n\t\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8090/find",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"find"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
